@@ -5,7 +5,7 @@ using namespace std;
 int main()
 {
     int age;
-
+    cout << "-----------------------------------" << endl;
     cout << "Enter your age: ";
     cin >> age;
 
@@ -17,6 +17,6 @@ int main()
 
     // Кувейт: алкоголь заборонено
     cout << "Kuwait - No" << endl;
-
+    cout << "-----------------------------------" << endl;
     return 0;
 }
