@@ -5,14 +5,11 @@ using namespace std;
 
 void printPoem()
 {
-    for (int i = 0; i < 4; i++)
-    {
         cout << "Hickory, dickory, dock,\n";
         cout << "The mouse ran up the clock;\n";
         cout << "The clock struck one,\n";
         cout << "And down he run,\n";
         cout << "Hickory, dickory, dock.\n\n";
-    }
 }
 
 void SetAlarm(int dayOfWeek, int month)
@@ -79,6 +76,9 @@ void CheckLuck(int num1, int num2)
 
 int main()
 {
+    printPoem();
+    printPoem();
+    printPoem();
     printPoem();
 
     SetAlarm(5, 4); // Звичайний робочий день
