@@ -3,9 +3,9 @@
 
 using namespace std;
 
-void printPoem(int n)
+void printPoem()
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < 4; i++)
     {
         cout << "Hickory, dickory, dock,\n";
         cout << "The mouse ran up the clock;\n";
@@ -60,9 +60,14 @@ void EvaluateParty(int cakes, int teaCups)
     }
 }
 
+bool IsLucky(int num1, int num2)
+{
+    return (num1 == 7 || num2 == 7 || num1 + num2 == 7 || abs(num1 - num2) == 7);
+}
+
 void CheckLuck(int num1, int num2)
 {
-    if (num1 == 7 || num2 == 7 || num1 + num2 == 7 || abs(num1 - num2) == 7)
+    if (IsLucky(num1, num2))
     {
         cout << "You are lucky!" << endl;
     }
@@ -74,7 +79,7 @@ void CheckLuck(int num1, int num2)
 
 int main()
 {
-    printPoem(4);
+    printPoem();
 
     SetAlarm(5, 4); // Звичайний робочий день
     SetAlarm(6, 4); // Вихідний, не в відпустці
