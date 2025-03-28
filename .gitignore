@@ -1,6 +1,7 @@
 .idea
 idea
 .DS_Store
+.vs/
 .vscode/
 .exe
 *.exe
