@@ -2,59 +2,69 @@
 #include <cstdlib>
 #include <ctime>
 
-void printMultiplicationTable()
-{
-    for (int i = 1; i <= 10; i++)
-    {
-        std::cout << "4 x " << i << " = " << (4 * i) << std::endl;
-    }
-}
-
-bool isValidDate(int day, int month, int year)
+bool isValidYear(int year)
 {
     if (year < 1600)
     {
         std::cout << "Year must be 1600 or greater." << std::endl;
         return false;
     }
+    return true;
+}
 
+bool isValidMonth(int month)
+{
     if (month < 1 || month > 12)
     {
         return false;
     }
+    return true;
+}
 
-    int daysInMonth;
+int getDaysInMonthByYear(int month, int year)
+{
     if (month == 2)
     {
         // Перевірка на високосний рік для лютого
         if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
         {
-            daysInMonth = 29; // Високосний рік
+            return 29; // Високосний рік
         }
         else
         {
-            daysInMonth = 28; // Не високосний рік
+            return 28; // Не високосний рік
         }
     }
     else if (month == 4 || month == 6 || month == 9 || month == 11)
     {
-        daysInMonth = 30;
+        return 30;
     }
     else
     {
-        daysInMonth = 31;
+        return 31;
+    }
+}
+
+bool isValidDate(int day, int month, int year)
+{
+    if (!isValidYear(year))
+    {
+        return false;
     }
 
+    if (!isValidMonth(month))
+    {
+        return false;
+    }
+
+    int daysInMonth = getDaysInMonthByYear(month, year);
     return (day >= 1 && day <= daysInMonth);
 }
 
 int getDaysInMonth(int month)
 {
-    if (!isValidDate(1, month, 2025))
-    {
-        return -1; // Некоректний місяць
-    }
-    return (month == 2) ? 28 : ((month == 4 || month == 6 || month == 9 || month == 11) ? 30 : 31);
+    // Передбачається, що рік 2025
+    return getDaysInMonthByYear(month, 2025);
 }
 
 void printDaysInMonth()
@@ -63,16 +73,64 @@ void printDaysInMonth()
     std::cout << "Enter month number (1-12): ";
     std::cin >> month;
 
-    // Використання isValidDate для перевірки місяця
     if (!isValidDate(1, month, 2025))
     {
         std::cout << "Invalid date!" << std::endl;
         return;
     }
 
-    // Отримуємо кількість днів у місяці через getDaysInMonth
     int days = getDaysInMonth(month);
     std::cout << "Days in month: " << days << std::endl;
+}
+
+void printNextDates(int day, int month, int year, int numberOfDays)
+{
+    if (!isValidDate(day, month, year))
+    {
+        std::cout << "Invalid date!" << std::endl;
+        return;
+    }
+
+    for (int i = 0; i < numberOfDays; ++i)
+    {
+        std::cout << (day < 10 ? "0" : "") << day << "." << (month < 10 ? "0" : "") << month << "." << year << std::endl;
+
+        ++day;
+
+        // Перевірка дня в місяці
+        int daysInMonth = getDaysInMonthByYear(month, year);
+
+        if (day > daysInMonth)
+        {
+            day = 1;
+            month++;
+
+            if (month > 12)
+            {
+                month = 1;
+                year++;
+            }
+        }
+    }
+}
+
+void inputAndPrintNextDates()
+{
+    int day, month, year, numberOfDays;
+    std::cout << "Enter date (day month year): ";
+    std::cin >> day >> month >> year;
+    std::cout << "Enter number of days: ";
+    std::cin >> numberOfDays;
+
+    printNextDates(day, month, year, numberOfDays);
+}
+
+void printMultiplicationTable()
+{
+    for (int i = 1; i <= 10; i++)
+    {
+        std::cout << "4 x " << i << " = " << (4 * i) << std::endl;
+    }
 }
 
 void simulatePokemonCompetition()
@@ -160,78 +218,6 @@ void simulatePokemonRace()
         else
             std::cout << "You lost the bet!\n";
     }
-}
-
-// Завдання №5 із бонусом
-// Функція для виведення наступних дат
-void printNextDates(int day, int month, int year, int numberOfDays)
-{
-    if (!isValidDate(day, month, year))
-    {
-        std::cout << "Invalid date!" << std::endl;
-        return;
-    }
-
-    for (int i = 0; i < numberOfDays; ++i)
-    {
-        std::cout << (day < 10 ? "0" : "") << day << "." << (month < 10 ? "0" : "") << month << "." << year << std::endl;
-
-        ++day;
-
-        if (month == 2)
-        {
-            if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
-            { // Високосний рік
-                if (day > 29)
-                {
-                    day = 1;
-                    month++;
-                }
-            }
-            else
-            {
-                if (day > 28)
-                {
-                    day = 1;
-                    month++;
-                }
-            }
-        }
-        else if (month == 4 || month == 6 || month == 9 || month == 11)
-        {
-            if (day > 30)
-            {
-                day = 1;
-                month++;
-            }
-        }
-        else
-        {
-            if (day > 31)
-            {
-                day = 1;
-                month++;
-            }
-        }
-
-        if (month > 12)
-        {
-            month = 1;
-            year++;
-        }
-    }
-}
-
-// Функція для введення та виклику функції виведення наступних дат
-void inputAndPrintNextDates()
-{
-    int day, month, year, numberOfDays;
-    std::cout << "Enter date (day month year): ";
-    std::cin >> day >> month >> year;
-    std::cout << "Enter number of days: ";
-    std::cin >> numberOfDays;
-
-    printNextDates(day, month, year, numberOfDays);
 }
 
 int main()
