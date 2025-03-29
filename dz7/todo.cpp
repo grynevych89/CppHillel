@@ -2,7 +2,14 @@
 #include <cstdlib>
 #include <ctime>
 
-// Функція для перевірки валідності дати з урахуванням року
+void printMultiplicationTable()
+{
+    for (int i = 1; i <= 10; i++)
+    {
+        std::cout << "4 x " << i << " = " << (4 * i) << std::endl;
+    }
+}
+
 bool isValidDate(int day, int month, int year)
 {
     if (year < 1600)
@@ -41,12 +48,13 @@ bool isValidDate(int day, int month, int year)
     return (day >= 1 && day <= daysInMonth);
 }
 
-void printMultiplicationTable()
+int getDaysInMonth(int month)
 {
-    for (int i = 1; i <= 10; i++)
+    if (!isValidDate(1, month, 2025))
     {
-        std::cout << "4 x " << i << " = " << (4 * i) << std::endl;
+        return -1; // Некоректний місяць
     }
+    return (month == 2) ? 28 : ((month == 4 || month == 6 || month == 9 || month == 11) ? 30 : 31);
 }
 
 void printDaysInMonth()
@@ -55,24 +63,16 @@ void printDaysInMonth()
     std::cout << "Enter month number (1-12): ";
     std::cin >> month;
 
+    // Використання isValidDate для перевірки місяця
     if (!isValidDate(1, month, 2025))
     {
         std::cout << "Invalid date!" << std::endl;
         return;
     }
 
-    std::cout << "Days in month: ";
-    int daysInMonth = 31;
-    if (month == 2)
-    {
-        daysInMonth = 28; // за замовчуванням для простоти
-    }
-    else if (month == 4 || month == 6 || month == 9 || month == 11)
-    {
-        daysInMonth = 30;
-    }
-
-    std::cout << daysInMonth << std::endl;
+    // Отримуємо кількість днів у місяці через getDaysInMonth
+    int days = getDaysInMonth(month);
+    std::cout << "Days in month: " << days << std::endl;
 }
 
 void simulatePokemonCompetition()
