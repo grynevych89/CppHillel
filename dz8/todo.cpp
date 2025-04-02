@@ -172,14 +172,12 @@ void startCompetition()
         std::cout << "Bob wins! He is the final winner!\n";
 }
 
-
-
 int main()
 {
-    // processNumbers();
-    // printMultiplicationTable();
-    // processBeautifulNumbers();
-    // inputAndDrawTree();
-    // startCompetition();
+    processNumbers();
+    printMultiplicationTable();
+    processBeautifulNumbers();
+    inputAndDrawTree();
+    startCompetition();
     return 0;
 }
