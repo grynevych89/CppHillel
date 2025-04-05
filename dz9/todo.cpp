@@ -133,39 +133,44 @@ void heapStatistics()
 }
 
 // Завдання №5
-void calculateVarianceAndStdDev(const int arr[], int size)
+void analyzeArray(const int arr[], int size)
 {
-    double avg = average(arr, size);
-    double squaredSum = 0;
+    if (size == 0) return;
 
-    for (int i = 0; i < size; ++i)
+    int maxVal = arr[0];
+    int minVal = arr[0];
+    long long sum = arr[0];
+    long long sumSquares = static_cast<long long>(arr[0]) * arr[0];
+
+    for (int i = 1; i < size; ++i)
     {
-        squaredSum += (arr[i] - avg) * (arr[i] - avg);
+        int val = arr[i];
+        if (val > maxVal) maxVal = val;
+        if (val < minVal) minVal = val;
+        sum += val;
+        sumSquares += static_cast<long long>(val) * val;
     }
 
-    double variance = squaredSum / size;
+    double avg = static_cast<double>(sum) / size;
+    double variance = static_cast<double>(sumSquares) / size - avg * avg;
     double stdDev = std::sqrt(variance);
 
+    std::cout << "Max value: " << maxVal << "\n";
+    std::cout << "Min value: " << minVal << "\n";
+    std::cout << "Average: " << avg << "\n";
     std::cout << "Variance: " << variance << "\n";
     std::cout << "Standard Deviation: " << stdDev << "\n";
 }
 
-void processArrays()
+void processArrayStats()
 {
     int arr[SIZE];
     fillArray(arr, SIZE, -50, 100);
-
     printArray(arr, SIZE);
-    printEvenValues(arr, SIZE);
-    printEvenIndexs(arr, SIZE);
-
-    std::cout << "Max value: " << findMax(arr, SIZE) << "\n";
-    std::cout << "Min value: " << findMin(arr, SIZE) << "\n";
-    std::cout << "Average: " << average(arr, SIZE) << "\n";
-    calculateVarianceAndStdDev(arr, SIZE);
+    analyzeArray(arr, SIZE);
 }
 
-void processLargeArray()
+void processHeapStats()
 {
     int *largeArray = new int[HEAP_SIZE];
     fillArray(largeArray, HEAP_SIZE, -100000, 100000);
@@ -178,24 +183,27 @@ void processLargeArray()
     std::cout << "Sum of elements at indices 1000 and 2000: "
               << largeArray[1000] + largeArray[2000] << "\n";
 
+    analyzeArray(largeArray, HEAP_SIZE);
+
     delete[] largeArray;
 }
 
 int main()
 {
     srand(static_cast<unsigned>(time(0)));
-    staticAndHeapArrays();
-    std::cout << "------------------------------------------------" << std::endl;
-    evenValuesOnly();
-    std::cout << "------------------------------------------------" << std::endl;
-    evenIndexOnly();
-    std::cout << "------------------------------------------------" << std::endl;
-    statistics();
+    
+    // staticAndHeapArrays();
+    // std::cout << "------------------------------------------------" << std::endl;
+    // evenValuesOnly();
+    // std::cout << "------------------------------------------------" << std::endl;
+    // evenIndexOnly();
+    // std::cout << "------------------------------------------------" << std::endl;
+    // statistics();
+    // std::cout << std::endl;
+    // heapStatistics();
+    // std::cout << "------------------------------------------------" << std::endl;
+    processArrayStats();
     std::cout << std::endl;
-    heapStatistics();
-    std::cout << "------------------------------------------------" << std::endl;
-    processArrays();
-    std::cout << std::endl;
-    processLargeArray();
+    processHeapStats();
     return 0;
 }
