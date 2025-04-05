@@ -150,14 +150,14 @@ void playRaceRound(int &goal, int &scoreJay, int &scoreBob)
     else if (jayTotal >= goal)
     {
         ++scoreJay;
-        std::cout << "Jay wins! Bob demands rematch! Competition goal is now " << static_cast<int>(goal * 1.5) << ".\n";
         goal = static_cast<int>(goal * 1.5);
-    }
+        std::cout << "Jay wins! Bob demands rematch! Competition goal is now " << goal << ".\n";
+        }
     else
     {
         ++scoreBob;
-        std::cout << "Bob wins! Jay demands rematch! Competition goal is now " << static_cast<int>(goal * 1.5) << ".\n";
         goal = static_cast<int>(goal * 1.5);
+        std::cout << "Bob wins! Jay demands rematch! Competition goal is now " << goal << ".\n";
     }
 }
 
