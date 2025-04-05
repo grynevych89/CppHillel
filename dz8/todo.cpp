@@ -119,69 +119,76 @@ void inputAndDrawTree()
     drawTree(levels);
 }
 
-void playRound(const std::string &player1, const std::string &player2, int &goal, int &score1, int &score2)
+int generatePokemons()
 {
-    int player1Score, player2Score;
+    return rand() % 4 + 3; // Від 3 до 6
+}
 
-    std::cout << "Enter the scores for " << player1 << " and " << player2 << " (two numbers separated by space): ";
+void playRaceRound(int &goal, int &scoreJay, int &scoreBob)
+{
+    int jayTotal = 0, bobTotal = 0;
+    int day = 1;
 
-    while (!(std::cin >> player1Score >> player2Score)) // Перевірка правильності введення
+    std::cout << "\nNew race started! Goal: " << goal << " pokemons\n";
+
+    while (jayTotal < goal && bobTotal < goal)
     {
-        std::cin.clear();             // Очистити флаг помилки
-        std::cin.ignore(10000, '\n'); // Видалити некоректний ввід
-        std::cout << "Invalid input. Please enter two numbers: ";
+        int jayCaught = generatePokemons();
+        int bobCaught = generatePokemons();
+        jayTotal += jayCaught;
+        bobTotal += bobCaught;
+
+        std::cout << "Day " << day++ << ":\n";
+        std::cout << "  Jay caught " << jayCaught << " (total: " << jayTotal << ")\n";
+        std::cout << "  Bob caught " << bobCaught << " (total: " << bobTotal << ")\n\n";
     }
 
-    if (player1Score > player2Score)
+    if (jayTotal >= goal && bobTotal >= goal)
     {
-        score1++;
-        goal = static_cast<int>(goal * 1.5);
-        std::cout << player1 << " wins! " << player2 << " demands a rematch! New competition goal: " << goal << ".\n";
+        std::cout << "It's a tie! They decided to rematch. Competition goal is " << goal << ".\n";
     }
-    else if (player2Score > player1Score)
+    else if (jayTotal >= goal)
     {
-        score2++;
+        ++scoreJay;
+        std::cout << "Jay wins! Bob demands rematch! Competition goal is now " << static_cast<int>(goal * 1.5) << ".\n";
         goal = static_cast<int>(goal * 1.5);
-        std::cout << player2 << " wins! " << player1 << " demands a rematch! New competition goal: " << goal << ".\n";
     }
     else
     {
-        std::cout << "It's a tie! They decided to rematch. Competition goal remains: " << goal << ".\n";
+        ++scoreBob;
+        std::cout << "Bob wins! Jay demands rematch! Competition goal is now " << static_cast<int>(goal * 1.5) << ".\n";
+        goal = static_cast<int>(goal * 1.5);
     }
 }
 
-void startCompetition()
+void startPokemonCompetition()
 {
-    int goal;
-    std::cout << "Enter the starting goal: ";
+    srand(static_cast<unsigned int>(time(0)));
 
-    while (!(std::cin >> goal)) // Перевірка правильності введення
-    {
-        std::cin.clear();
-        std::cin.ignore(10000, '\n');
-        std::cout << "Invalid input. Please enter a number: ";
-    }
+    int goal;
+    std::cout << "Enter the starting competition goal: ";
+    std::cin >> goal;
 
     int scoreJay = 0, scoreBob = 0;
 
     while (scoreJay < 3 && scoreBob < 3)
     {
-        playRound("Jay", "Bob", goal, scoreJay, scoreBob);
-        std::cout << "Current Score -> Jay: " << scoreJay << " | Bob: " << scoreBob << "\n\n";
+        playRaceRound(goal, scoreJay, scoreBob);
     }
 
+    std::cout << "\nFinal Result:\n";
     if (scoreJay == 3)
-        std::cout << "Jay wins the tournament! He is the final winner!\n";
+        std::cout << "Jay wins the competition!\n";
     else
-        std::cout << "Bob wins the tournament! He is the final winner!\n";
+        std::cout << "Bob wins the competition!\n";
 }
 
 int main()
 {
-    processNumbers();
-    printMultiplicationTable();
-    processBeautifulNumbers();
-    inputAndDrawTree();
-    startCompetition();
+    // processNumbers();
+    // printMultiplicationTable();
+    // processBeautifulNumbers();
+    // inputAndDrawTree();
+    startPokemonCompetition();
     return 0;
 }
